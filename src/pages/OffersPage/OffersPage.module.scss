@@ -35,7 +35,7 @@
   h3 {
     margin: 0;
     color: var(--color-text-heading);
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-2xl);
     line-height: 1;
     font-weight: var(--font-weight-black);
     letter-spacing: -1px;
@@ -113,7 +113,7 @@
     gap: 12px;
 
     h3 {
-      font-size: 28px;
+      font-size: var(--font-size-lg);
     }
   }
 

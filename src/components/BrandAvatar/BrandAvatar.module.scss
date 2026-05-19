@@ -25,12 +25,12 @@
 
 .name {
   color: var(--color-text-dark);
-  font-size: 32px;
+  // font-size: 32px;
   font-weight: var(--font-weight-black);
 }
 
 .nameLarge {
-  font-size: 34px;
+  font-size: var(--font-size-lg);
 
   @media (max-width: 480px) {
     font-size: 30px;

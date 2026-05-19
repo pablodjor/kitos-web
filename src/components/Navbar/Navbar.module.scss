@@ -44,3 +44,19 @@
     padding-left: 12px !important;
   }
 }
+
+.toggler {
+  padding: 4px 8px;
+  font-size: 14px;
+  border: 0;
+  box-shadow: none;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  :global(.navbar-toggler-icon) {
+    width: 22px;
+    height: 22px;
+  }
+}
