@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaGamepad } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
 
 import "swiper/css";
-import "swiper/css/navigation";
 
 import { getOffers } from "../../services/googleSheetService";
 import { getOfferCategory } from "../../utils/offerCategory";
@@ -14,6 +12,61 @@ import OfferCard from "../../components/OfferCard/OfferCard";
 import SwiperArrow from "../../components/SwiperArrow/SwiperArrow";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import styles from "./OffersPage.module.scss";
+
+function CategoryOffersSwiper({ offers, categoryTitle }) {
+  const swiperRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const updateNavState = (swiper) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
+  return (
+    <div className={styles.heroSwiper}>
+      {!isBeginning && (
+        <SwiperArrow
+          direction="prev"
+          className="custom-prev"
+          onClick={() => swiperRef.current?.slidePrev()}
+        />
+      )}
+
+      <Swiper
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          updateNavState(swiper);
+        }}
+        onSlideChange={updateNavState}
+        onResize={updateNavState}
+        onBreakpoint={updateNavState}
+        onUpdate={updateNavState}
+        spaceBetween={18}
+        slidesPerView={1.1}
+        breakpoints={{
+          650: { slidesPerView: 2 },
+          900: { slidesPerView: 3 },
+          1200: { slidesPerView: 4 },
+        }}
+      >
+        {offers.map((offer) => (
+          <SwiperSlide key={`${categoryTitle}-${offer.id}`}>
+            <OfferCard offer={offer} variant="page" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {!isEnd && (
+        <SwiperArrow
+          direction="next"
+          className="custom-next"
+          onClick={() => swiperRef.current?.slideNext()}
+        />
+      )}
+    </div>
+  );
+}
 
 export default function OffersPage() {
   const [offers, setOffers] = useState([]);
@@ -99,31 +152,10 @@ export default function OffersPage() {
               </Link>
             </div>
 
-            <div className={styles.heroSwiper}>
-              <Swiper
-                modules={[Navigation]}
-                navigation={{
-                  nextEl: ".custom-next",
-                  prevEl: ".custom-prev",
-                }}
-                spaceBetween={18}
-                slidesPerView={1.1}
-                breakpoints={{
-                  650: { slidesPerView: 2 },
-                  900: { slidesPerView: 3 },
-                  1200: { slidesPerView: 4 },
-                }}
-              >
-                {category.offers.map((offer) => (
-                  <SwiperSlide key={`${category.title}-${offer.id}`}>
-                    <OfferCard offer={offer} variant="page" />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
-              <SwiperArrow direction="prev" as="div" className="custom-prev" />
-              <SwiperArrow direction="next" as="div" className="custom-next" />
-            </div>
+            <CategoryOffersSwiper
+              offers={category.offers}
+              categoryTitle={category.title}
+            />
           </section>
         ))}
     </div>
