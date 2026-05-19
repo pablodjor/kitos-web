@@ -1,5 +1,4 @@
 import { FaMoon, FaSun } from "react-icons/fa";
-import { MdBrightnessAuto } from "react-icons/md";
 
 import { useTheme } from "../../context/ThemeContext";
 import {
@@ -21,13 +20,7 @@ export default function ThemeToggle() {
       aria-label={`${label}. Activar ${nextLabel.toLowerCase()}.`}
       title={`${label} — clic para ${nextLabel.toLowerCase()}`}
     >
-      {preference === "system" ? (
-        <MdBrightnessAuto aria-hidden />
-      ) : resolved === "dark" ? (
-        <FaSun aria-hidden />
-      ) : (
-        <FaMoon aria-hidden />
-      )}
+      {resolved === "dark" ? <FaSun aria-hidden /> : <FaMoon aria-hidden />}
     </button>
   );
 }

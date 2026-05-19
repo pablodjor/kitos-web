@@ -5,7 +5,7 @@ export function getStoredPreference() {
   if (stored === "light" || stored === "dark" || stored === "system") {
     return stored;
   }
-  return "light";
+  return "system";
 }
 
 export function setStoredPreference(preference) {
@@ -41,17 +41,13 @@ export function applyTheme(preference) {
 }
 
 export function cyclePreference(current) {
-  if (current === "system") return "light";
-  if (current === "light") return "dark";
-  return "system";
+  return resolveTheme(current) === "dark" ? "light" : "dark";
 }
 
 export function getPreferenceLabel(preference) {
-  if (preference === "light") return "Modo claro";
-  if (preference === "dark") return "Modo oscuro";
-  return "Tema del sistema";
+  return resolveTheme(preference) === "dark" ? "Modo oscuro" : "Modo claro";
 }
 
 export function getNextPreferenceLabel(preference) {
-  return getPreferenceLabel(cyclePreference(preference));
+  return resolveTheme(preference) === "dark" ? "Modo claro" : "Modo oscuro";
 }
