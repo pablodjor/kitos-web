@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { getCountries } from "../../services/countriesService";
 import {
+  getLegalBases,
   getRaffleConfig,
   registerUser,
 } from "../../services/googleSheetService";
 import AlertMessage from "../../components/AlertMessage/AlertMessage";
 import CountryAutocomplete from "../../components/CountryAutocomplete/CountryAutocomplete";
+import LegalBasesModal from "../../components/LegalBasesModal/LegalBasesModal";
 import Loader from "../../components/Loader/Loader";
 import styles from "./RegisterSorteoPage.module.scss";
 
@@ -13,8 +15,12 @@ export default function RegisterSorteoPage() {
   const [form, setForm] = useState({ name: "", email: "", country: "" });
   const [countries, setCountries] = useState([]);
   const [raffleConfig, setRaffleConfig] = useState(null);
+  const [legalBases, setLegalBases] = useState(null);
   const [loadingConfig, setLoadingConfig] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loadingLegalBases, setLoadingLegalBases] = useState(false);
+  const [legalBasesError, setLegalBasesError] = useState("");
+  const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
@@ -78,21 +84,19 @@ export default function RegisterSorteoPage() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const validateForm = () => {
     if (hasWinner) {
       setMessage(
         `El sorteo ya tiene ganador (${winnerName}). No es posible registrarse.`
       );
       setMessageType("error");
-      return;
+      return false;
     }
 
     if (isRaffleExpired) {
       setMessage("El sorteo ya finalizó. No es posible registrarse.");
       setMessageType("error");
-      return;
+      return false;
     }
 
     const isValidCountry = countries.some(
@@ -102,9 +106,60 @@ export default function RegisterSorteoPage() {
     if (!form.country || !isValidCountry) {
       setMessage("Seleccioná un país válido de la lista.");
       setMessageType("error");
+      return false;
+    }
+
+    return true;
+  };
+
+  const loadLegalBases = async () => {
+    if (legalBases !== null) {
+      return legalBases;
+    }
+
+    setLoadingLegalBases(true);
+    setLegalBasesError("");
+
+    try {
+      const bases = await getLegalBases();
+      setLegalBases(bases);
+      return bases;
+    } catch (error) {
+      setLegalBasesError(error.message);
+      throw error;
+    } finally {
+      setLoadingLegalBases(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
       return;
     }
 
+    setMessage("");
+    setMessageType("");
+    setIsLegalModalOpen(true);
+
+    try {
+      await loadLegalBases();
+    } catch {
+      // El error se muestra dentro del modal.
+    }
+  };
+
+  const handleCloseLegalModal = () => {
+    if (loading) {
+      return;
+    }
+
+    setIsLegalModalOpen(false);
+    setLegalBasesError("");
+  };
+
+  const handleAcceptLegalBases = async () => {
     setLoading(true);
     setMessage("");
     setMessageType("");
@@ -119,6 +174,7 @@ export default function RegisterSorteoPage() {
       setMessage(data.message);
       setMessageType("success");
       setForm({ name: "", email: "", country: "" });
+      setIsLegalModalOpen(false);
     } catch (error) {
       setMessage(error.message);
       setMessageType("error");
@@ -233,6 +289,16 @@ export default function RegisterSorteoPage() {
           </div>
         </div>
       </section>
+
+      <LegalBasesModal
+        isOpen={isLegalModalOpen}
+        legalBases={legalBases}
+        loading={loadingLegalBases}
+        submitting={loading}
+        error={legalBasesError}
+        onClose={handleCloseLegalModal}
+        onAccept={handleAcceptLegalBases}
+      />
     </div>
   );
 }

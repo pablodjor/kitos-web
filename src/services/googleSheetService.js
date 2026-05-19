@@ -68,7 +68,6 @@ export async function getOffers() {
   return data.offers || [];
 }
 
-
 export async function getRaffleConfig() {
   if (!scriptUrl) {
     throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
@@ -88,4 +87,25 @@ export async function getRaffleConfig() {
   }
 
   return data.config;
+}
+
+export async function getLegalBases() {
+  if (!scriptUrl) {
+    throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
+  }
+
+  const response = await fetch(scriptUrl, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "getLegalBases",
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!data.ok) {
+    throw new Error(data.message || "Error al traer las bases legales");
+  }
+
+  return data.legal?.text || "";
 }

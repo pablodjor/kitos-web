@@ -7,7 +7,7 @@ import {
 } from "../../utils/theme";
 import styles from "./ThemeToggle.module.scss";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ className = "" }) {
   const { preference, resolved, cycleTheme } = useTheme();
   const label = getPreferenceLabel(preference);
   const nextLabel = getNextPreferenceLabel(preference);
@@ -15,7 +15,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className={styles.toggle}
+      className={`${styles.toggle} ${className}`.trim()}
       onClick={cycleTheme}
       aria-label={`${label}. Activar ${nextLabel.toLowerCase()}.`}
       title={`${label} — clic para ${nextLabel.toLowerCase()}`}

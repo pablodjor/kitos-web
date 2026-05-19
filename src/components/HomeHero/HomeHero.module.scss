@@ -130,8 +130,21 @@ $hero-height: 430px;
 @media (max-width: 991px) {
   .hero {
     min-height: auto;
-    background-size: cover;
-    background-position: center top;
+    background: linear-gradient(
+      135deg,
+      rgba(72, 151, 216, 0.2) 0%,
+      var(--color-white) 55%,
+      rgba(250, 110, 89, 0.15) 100%
+    );
+
+    :global([data-theme="dark"]) & {
+      background: linear-gradient(
+        135deg,
+        rgba(72, 151, 216, 0.2) 0%,
+        var(--color-bg) 55%,
+        rgba(250, 110, 89, 0.15) 100%
+      );
+    }
   }
 
   .heroRow {

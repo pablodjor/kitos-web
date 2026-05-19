@@ -23,21 +23,24 @@ export default function Navbar() {
   return (
     <header className={styles.navbar}>
       <nav className={`navbar navbar-expand-lg ${styles.nav}`}>
-        <div className="container">
+        <div className={`container ${styles.container}`}>
           <NavLink to="/" className={`navbar-brand ${styles.brandLink}`} onClick={closeMenu}>
             <BrandAvatar name="Kitos" />
           </NavLink>
 
-          <button
-            className={`navbar-toggler ${styles.toggler}`}
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-controls="mainNavbar"
-            aria-expanded={open}
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          <div className={styles.mobileActions}>
+            <ThemeToggle className={styles.themeToggleMobile} />
+            <button
+              className={`navbar-toggler ${styles.toggler}`}
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-controls="mainNavbar"
+              aria-expanded={open}
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+          </div>
 
           <div
             className={`collapse navbar-collapse ${open ? "show" : ""}`}
@@ -60,7 +63,7 @@ export default function Navbar() {
                   </NavLink>
                 </li>
               ))}
-              <li className="nav-item">
+              <li className={`nav-item ${styles.desktopTheme}`}>
                 <ThemeToggle />
               </li>
             </ul>
