@@ -1,0 +1,89 @@
+.section {
+  margin-top: -28px;
+  padding: 30px 0 42px;
+  position: relative;
+  z-index: 2;
+  background: var(--color-bg);
+  border-radius: 28px 28px 0 0;
+
+  h2 {
+    margin: 0 0 20px;
+    color: var(--color-text);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    text-transform: uppercase;
+  }
+}
+
+.card {
+  height: 100%;
+  min-height: 300px;
+  padding: 36px 30px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+
+  h3 {
+    margin: 18px 0 14px;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 250px;
+    margin: 0 auto 28px;
+    color: var(--color-text-soft);
+    line-height: 1.6;
+  }
+
+  a {
+    font-weight: var(--font-weight-black);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+}
+
+.icon {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--color-white);
+  font-size: 34px;
+}
+
+.orange {
+  .icon {
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  }
+
+  a {
+    color: var(--color-secondary);
+  }
+}
+
+.purple {
+  .icon {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  }
+
+  a {
+    color: #6d28d9;
+  }
+}
+
+.green {
+  .icon {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  }
+
+  a {
+    color: var(--color-primary-dark);
+  }
+}

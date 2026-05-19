@@ -1,0 +1,173 @@
+.page {
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 34px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(72, 151, 216, 0.12), transparent 34%),
+    linear-gradient(180deg, var(--color-white) 0%, var(--color-bg) 100%);
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(72, 151, 216, 0.1), transparent 28%),
+    var(--color-white);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+
+  :global(.form-field input:focus) {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(72, 151, 216, 0.15);
+  }
+}
+
+.prizeImage {
+  width: 210px;
+  height: 160px;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+.header {
+  margin-bottom: 26px;
+
+  h1 {
+    margin: 12px 0 8px;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: var(--font-weight-black);
+    color: var(--color-text-heading);
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-md);
+    line-height: 1.45;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(72, 151, 216, 0.15);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.submitBtn {
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+  text-transform: uppercase;
+  font-size: var(--font-size-base);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-dark) 0%,
+      #2f6a9e 100%
+    );
+  }
+}
+
+.infoBox {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: rgba(72, 151, 216, 0.06);
+  border: 1px solid rgba(72, 151, 216, 0.18);
+  display: flex;
+  gap: 14px;
+  text-align: left;
+}
+
+.infoIcon {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-black);
+}
+
+.infoContent {
+  h2 {
+    margin: 0 0 8px;
+    font-size: var(--font-size-md);
+    color: var(--color-primary-dark);
+    font-weight: var(--font-weight-black);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+    color: var(--color-text-soft);
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    align-items: flex-start;
+    padding-top: 28px;
+  }
+
+  .card {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .prizeImage {
+    width: 190px;
+    height: 145px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: #9ca3af;
+}
+
+.card input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: #f3f4f6;
+}

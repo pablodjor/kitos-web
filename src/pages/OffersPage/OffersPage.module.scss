@@ -1,0 +1,129 @@
+.page {
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 34px 32px 24px;
+  background:
+    radial-gradient(circle at top left, rgba(250, 110, 89, 0.08), transparent 34%),
+    linear-gradient(180deg, var(--color-white) 0%, var(--color-bg) 100%);
+}
+
+.categoryBlock {
+  position: relative;
+  max-width: 1210px;
+  margin: 0 auto 20px;
+  padding: 30px 34px 28px 70px;
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(250, 110, 89, 0.08), transparent 24%),
+    var(--color-white);
+  overflow: hidden;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.titleBox {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  h3 {
+    margin: 0;
+    color: var(--color-text-heading);
+    font-size: var(--font-size-3xl);
+    line-height: 1;
+    font-weight: var(--font-weight-black);
+    letter-spacing: -1px;
+  }
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-lg);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-secondary), #ff9d4d);
+  color: var(--color-white);
+  font-size: 25px;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+  text-decoration: none;
+  transition: 0.2s ease;
+
+  &:hover {
+    transform: translateX(3px);
+  }
+}
+
+.heroSwiper {
+  position: relative;
+  padding: 0 52px;
+
+  :global(.custom-prev) {
+    left: 4px;
+    border: 1px solid #c9c9c9;
+  }
+
+  :global(.custom-next) {
+    right: 4px;
+    border: 1px solid #c9c9c9;
+  }
+
+  :global(.swiper-button-disabled) {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 1050px) {
+  .categoryBlock {
+    padding-left: 52px;
+  }
+}
+
+@media (max-width: 650px) {
+  .page {
+    padding: 24px 14px;
+  }
+
+  .categoryBlock {
+    padding: 24px 16px 20px;
+    border-radius: 22px;
+  }
+
+  .categoryHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .titleBox {
+    gap: 12px;
+
+    h3 {
+      font-size: 28px;
+    }
+  }
+
+  .icon {
+    width: 46px;
+    height: 46px;
+    font-size: 21px;
+  }
+
+  .viewAll {
+    font-size: var(--font-size-base);
+  }
+}

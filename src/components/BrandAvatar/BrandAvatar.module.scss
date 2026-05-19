@@ -1,0 +1,38 @@
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.name {
+  color: var(--color-text-dark);
+  font-size: 32px;
+  font-weight: var(--font-weight-black);
+}
+
+.nameLarge {
+  font-size: 34px;
+
+  @media (max-width: 480px) {
+    font-size: 30px;
+  }
+}

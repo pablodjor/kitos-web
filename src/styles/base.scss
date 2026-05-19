@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+:root {
+  /* Colores principales */
+  --color-primary: #4897d8;
+  --color-secondary: #fa6e59;
+  --color-primary-dark: #3a7ab8;
+  --color-secondary-dark: #e85a47;
+
+  /* Texto */
+  --color-text: #111827;
+  --color-text-dark: #0f172a;
+  --color-text-heading: #070d24;
+  --color-text-muted: #6b7280;
+  --color-text-soft: #4b5563;
+  --color-text-light: #64748b;
+
+  /* Fondos y bordes */
+  --color-white: #ffffff;
+  --color-bg: #f8fafc;
+  --color-border: #e5e7eb;
+  --color-border-light: #eef2f7;
+  --color-border-input: #d1d5db;
+
+  /* Estados */
+  --color-success-bg: #dcfce7;
+  --color-success-text: #166534;
+  --color-error-bg: #fee2e2;
+  --color-error-text: #991b1b;
+  --color-price: #ff2b16;
+
+  /* Fuentes */
+  --font-family: "Open Sans", sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+  --font-weight-black: 950;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-md: 15px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 30px;
+
+  /* Espaciado */
+  --radius-sm: 8px;
+  --radius-md: 11px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+  --radius-full: 999px;
+
+  /* Sombras */
+  --shadow-sm: 0 8px 28px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 16px 38px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.16);
+  --shadow-arrow: 0 12px 28px rgba(15, 23, 42, 0.16);
+
+  /* Layout */
+  --navbar-height: 78px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Formularios compartidos */
+.form-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-white);
+  border-radius: var(--radius-2xl);
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  span {
+    color: #374151;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+  }
+
+  input {
+    height: 48px;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-lg);
+    padding: 0 14px;
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(72, 151, 216, 0.15);
+    }
+  }
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btn-primary {
+  height: 50px;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.alert {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+
+  &--success {
+    background: var(--color-success-bg);
+    color: var(--color-success-text);
+  }
+
+  &--error {
+    background: var(--color-error-bg);
+    color: var(--color-error-text);
+  }
+}
+
+.status-text {
+  padding: 18px;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  color: var(--color-text-dark);
+
+  &--error {
+    background: var(--color-error-bg);
+    color: var(--color-error-text);
+  }
+}
