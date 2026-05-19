@@ -109,7 +109,7 @@ export default function LegalBasesModal({
           <div className={styles.actions}>
             <button
               type="button"
-              className={styles.cancelBtn}
+              className={`p-2 ${styles.cancelBtn}`}
               onClick={onClose}
               disabled={submitting}
             >
@@ -117,7 +117,7 @@ export default function LegalBasesModal({
             </button>
             <button
               type="button"
-              className={`btn-primary ${styles.acceptBtn}`}
+              className={`p-2 btn-primary ${styles.acceptBtn}`}
               onClick={onAccept}
               disabled={!accepted || loading || submitting || Boolean(error)}
             >
