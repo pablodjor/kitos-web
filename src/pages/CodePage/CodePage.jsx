@@ -59,7 +59,7 @@ export default function CodePage() {
         <div className={styles.header}>
           <span className={styles.badge}>Código Sorteo</span>
 
-          <h1>Sumá participaciones</h1>
+          <h1>Gana participaciones</h1>
 
           <p>
             Ingresá tu email registrado y el código del sorteo.

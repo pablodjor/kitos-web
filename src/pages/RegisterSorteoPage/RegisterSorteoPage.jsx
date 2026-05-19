@@ -197,7 +197,6 @@ export default function RegisterSorteoPage() {
               onChange={handleCountryChange}
               disabled={isDisabled}
               required
-              placeholder="Seleccioná o escribí tu país"
             />
           </label>
 

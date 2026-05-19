@@ -31,7 +31,7 @@ export default function HomeHero() {
               </h1>
 
               <p>
-                Las mejores ofertas en hardware, juegos y más.
+                Las mejores ofertas en gaming.
               </p>
 
               <div className={styles.socials}>

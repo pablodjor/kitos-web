@@ -18,7 +18,7 @@ export default function TelegramBanner() {
                             <div className={styles.text}>
                                 <h2>Ofertas en tiempo real</h2>
                                 <p>
-                                    En nuestro canal de Telegram tenés las mejores ofertas de
+                                    En nuestro canal de Telegram tienes las mejores ofertas de
                                     videojuegos en tiempo real.
                                 </p>
                             </div>

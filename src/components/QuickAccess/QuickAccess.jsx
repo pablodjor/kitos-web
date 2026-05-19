@@ -14,7 +14,7 @@ const items = [
     },
     {
         title: "Sorteos",
-        text: "Participá en los sorteos activos y ganá premios increíbles.",
+        text: "Participa en los sorteos activos y gana premios increíbles.",
         link: "/sorteos",
         cta: "Ir al sorteo",
         variant: "purple",
@@ -22,7 +22,7 @@ const items = [
     },
     {
         title: "Canjear código",
-        text: "¿Tenés un código? Canjealo y sumá más participaciones.",
+        text: "¿Tienes un código? Canjealo y suma más participaciones.",
         link: "/codigo",
         cta: "Canjear ahora",
         variant: "green",

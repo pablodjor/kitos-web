@@ -9,7 +9,7 @@ export default function CountryAutocomplete({
   onChange,
   disabled = false,
   required = false,
-  placeholder = "Seleccioná o escribí tu país",
+  placeholder = "Selecciona tu país",
 }) {
   const listId = useId();
   const containerRef = useRef(null);

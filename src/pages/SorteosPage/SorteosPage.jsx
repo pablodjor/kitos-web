@@ -212,7 +212,7 @@ export default function SorteosPage() {
             <section className={styles.categoryBlock}>
                 <div className={styles.codeContent}>
                     <p>
-                        Ganá más participaciones para el sorteo
+                        Consigue más participaciones para el sorteo
                         introduciendo códigos secretos
                     </p>
 

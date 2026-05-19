@@ -30,8 +30,7 @@ export default function Footer() {
               <BrandAvatar name="Kitos" size="large" className={styles.brand} />
 
               <p className={styles.description}>
-                Contenido, ofertas, sorteos y mucha buena onda. ¡Gracias por ser
-                parte de la comunidad!
+                ¡Gracias por ser parte de la comunidad!
               </p>
             </div>
 
