@@ -1,41 +1,64 @@
+$hero-height: 430px;
+
 .hero {
-  min-height: 430px;
+  position: relative;
+  min-height: $hero-height;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 8% 20%, rgba(255, 255, 255, 0.35), transparent 8%),
-    linear-gradient(
-      115deg,
-      var(--color-primary) 0%,
-      var(--color-primary) 42%,
-      var(--color-white) 42%,
-      var(--color-white) 72%,
-      var(--color-secondary) 72%
-    );
+  background-color: var(--color-white);
+  background-image: url("./image/fondoBanner.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .heroRow {
-  min-height: 430px;
+  min-height: $hero-height;
+  align-items: flex-end;
 }
 
 .heroImageCol {
-  display: block;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 1;
 }
 
 .heroPerson {
   display: flex;
-  justify-content: center;
   align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  line-height: 0;
+}
+
+.heroImage {
+  display: block;
+  width: auto;
+  max-width: 115%;
+  height: auto;
+  max-height: $hero-height;
+  object-fit: contain;
+  object-position: left bottom;
+  margin-left: -4%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.heroContentCol {
+  align-self: center;
 }
 
 .content {
-  padding: 56px 0;
+  padding: 32px 0 32px clamp(12px, 3vw, 40px);
 
   h1 {
-    margin: 0 0 18px;
+    margin: 0 0 16px;
     color: var(--color-text-heading);
-    font-size: clamp(32px, 4.5vw, 56px);
+    font-size: clamp(36px, 4.8vw, 58px);
     line-height: 0.95;
     font-weight: var(--font-weight-black);
+    letter-spacing: -0.02em;
 
     span {
       display: block;
@@ -44,10 +67,11 @@
   }
 
   p {
-    margin: 0 0 28px;
+    margin: 0 0 24px;
     color: var(--color-text-soft);
-    font-size: var(--font-size-xl);
+    font-size: clamp(15px, 1.6vw, 18px);
     line-height: 1.5;
+    max-width: 420px;
   }
 }
 
@@ -67,6 +91,15 @@
     color: var(--color-secondary);
     font-size: 20px;
     text-decoration: none;
+    transition: transform 0.15s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:nth-child(1) {
+      color: #ff0000;
+    }
 
     &:nth-child(2) {
       color: var(--color-text);
@@ -82,24 +115,31 @@
   }
 }
 
+@media (max-width: 1199px) {
+  .heroImage {
+    max-width: 125%;
+    margin-left: -8%;
+  }
+}
+
 @media (max-width: 991px) {
   .hero {
     min-height: auto;
-    background: linear-gradient(
-      135deg,
-      rgba(72, 151, 216, 0.2) 0%,
-      var(--color-white) 55%,
-      rgba(250, 110, 89, 0.15) 100%
-    );
+    background-size: cover;
+    background-position: center top;
   }
 
   .heroRow {
     min-height: auto;
-    align-items: flex-start !important;
+    align-items: flex-start;
   }
 
   .heroImageCol {
     display: none;
+  }
+
+  .heroContentCol {
+    align-self: auto;
   }
 
   .content {
@@ -114,8 +154,9 @@
 
     p {
       font-size: var(--font-size-md);
-      margin-bottom: 18px;
+      margin: 0 auto 18px;
       line-height: 1.45;
+      max-width: none;
     }
   }
 

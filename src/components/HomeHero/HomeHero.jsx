@@ -13,7 +13,7 @@ export default function HomeHero() {
   return (
     <section className={styles.hero}>
       <div className="container">
-        <div className={`row align-items-center ${styles.heroRow}`}>
+        <div className={`row ${styles.heroRow}`}>
           <div className={`col-12 col-lg-5 p-0 ${styles.heroImageCol}`}>
             <div className={styles.heroPerson}>
               <img
@@ -24,7 +24,7 @@ export default function HomeHero() {
             </div>
           </div>
 
-          <div className="col-12 col-lg-7">
+          <div className={`col-12 col-lg-7 ${styles.heroContentCol}`}>
             <div className={styles.content}>
               <h1>
                 Ofertas en <span>videojuegos</span>

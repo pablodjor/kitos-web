@@ -57,7 +57,7 @@ export default function CodePage() {
     <div className={styles.page}>
       <section className={styles.card}>
         <div className={styles.header}>
-          <span className={styles.badge}>Código Sorteo</span>
+          <span className={styles.badge}>Códigos secretos</span>
 
           <h1>Gana participaciones</h1>
 
@@ -81,7 +81,7 @@ export default function CodePage() {
           </label>
 
           <label className="form-field">
-            <span>Código sorteo</span>
+            <span>Código secreto</span>
 
             <input
               type="text"
@@ -98,7 +98,7 @@ export default function CodePage() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Validando..." : "Cargar código"}
+            {loading ? "Validando..." : "Validar código"}
           </button>
         </form>
 
