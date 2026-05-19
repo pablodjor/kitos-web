@@ -5,6 +5,7 @@ import {
   registerUser,
 } from "../../services/googleSheetService";
 import AlertMessage from "../../components/AlertMessage/AlertMessage";
+import CountryAutocomplete from "../../components/CountryAutocomplete/CountryAutocomplete";
 import Loader from "../../components/Loader/Loader";
 import styles from "./RegisterSorteoPage.module.scss";
 
@@ -38,6 +39,18 @@ export default function RegisterSorteoPage() {
     loadInitialData();
   }, []);
 
+  const winnerName = useMemo(() => {
+    const name =
+      raffleConfig?.ganador ??
+      raffleConfig?.Ganador ??
+      raffleConfig?.winner ??
+      "";
+
+    return typeof name === "string" ? name.trim() : "";
+  }, [raffleConfig]);
+
+  const hasWinner = winnerName.length > 0;
+
   const isRaffleExpired = useMemo(() => {
     if (!raffleConfig?.endDate) return true;
 
@@ -46,6 +59,8 @@ export default function RegisterSorteoPage() {
 
     return endDate.getTime() <= now.getTime();
   }, [raffleConfig]);
+
+  const isRegistrationClosed = isRaffleExpired || hasWinner;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,11 +71,36 @@ export default function RegisterSorteoPage() {
     }));
   };
 
+  const handleCountryChange = (country) => {
+    setForm((prev) => ({
+      ...prev,
+      country,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (hasWinner) {
+      setMessage(
+        `El sorteo ya tiene ganador (${winnerName}). No es posible registrarse.`
+      );
+      setMessageType("error");
+      return;
+    }
+
     if (isRaffleExpired) {
       setMessage("El sorteo ya finalizó. No es posible registrarse.");
+      setMessageType("error");
+      return;
+    }
+
+    const isValidCountry = countries.some(
+      (country) => country.name === form.country
+    );
+
+    if (!form.country || !isValidCountry) {
+      setMessage("Seleccioná un país válido de la lista.");
       setMessageType("error");
       return;
     }
@@ -87,7 +127,7 @@ export default function RegisterSorteoPage() {
     }
   };
 
-  const isDisabled = loading || loadingConfig || isRaffleExpired;
+  const isDisabled = loading || loadingConfig || isRegistrationClosed;
 
   if (loadingConfig) {
     return (
@@ -111,15 +151,17 @@ export default function RegisterSorteoPage() {
 
         <div className={styles.header}>
           <span className={styles.badge}>
-            {isRaffleExpired ? "Sorteo finalizado" : "Registro sorteo"}
+            {isRegistrationClosed ? "Sorteo finalizado" : "Registro sorteo"}
           </span>
 
           <h1>{raffleConfig?.title}</h1>
 
           <p>
-            {isRaffleExpired
-              ? "Este sorteo ya finalizó. Ya no se aceptan nuevas participaciones."
-              : raffleConfig?.description}
+            {hasWinner
+              ? `¡Felicidades ${winnerName}! El sorteo ya tiene ganador y no se aceptan nuevas participaciones.`
+              : isRaffleExpired
+                ? "Este sorteo ya finalizó. Ya no se aceptan nuevas participaciones."
+                : raffleConfig?.description}
           </p>
         </div>
 
@@ -149,22 +191,14 @@ export default function RegisterSorteoPage() {
           </label>
 
           <label className="form-field">
-            <select
-              name="country"
+            <CountryAutocomplete
+              countries={countries}
               value={form.country}
-              onChange={handleChange}
-              required
+              onChange={handleCountryChange}
               disabled={isDisabled}
-            >
-              <option value="" disabled>
-                Seleccioná tu país
-              </option>
-              {countries.map((country) => (
-                <option key={country.code} value={country.name}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
+              required
+              placeholder="Seleccioná o escribí tu país"
+            />
           </label>
 
           <button
@@ -172,7 +206,7 @@ export default function RegisterSorteoPage() {
             type="submit"
             disabled={isDisabled}
           >
-            {isRaffleExpired
+            {isRegistrationClosed
               ? "Sorteo finalizado"
               : loading
                 ? "Guardando..."
@@ -187,13 +221,15 @@ export default function RegisterSorteoPage() {
 
           <div className={styles.infoContent}>
             <h2>
-              {isRaffleExpired ? "Registro cerrado" : "¿Cómo participo?"}
+              {isRegistrationClosed ? "Registro cerrado" : "¿Cómo participo?"}
             </h2>
 
             <p>
-              {isRaffleExpired
-                ? "La fecha límite para registrarse en este sorteo ya pasó."
-                : "Registrate con tu nombre y email. Después vas a poder sumar más participaciones usando códigos secretos."}
+              {hasWinner
+                ? "Este sorteo ya se realizó y tenemos un ganador. No se pueden registrar nuevos participantes."
+                : isRaffleExpired
+                  ? "La fecha límite para registrarse en este sorteo ya pasó."
+                  : "Registrate con tu nombre y email. Después vas a poder sumar más participaciones usando códigos secretos."}
             </p>
           </div>
         </div>

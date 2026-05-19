@@ -29,13 +29,27 @@ export default function SorteosPage() {
         loadConfig();
     }, []);
 
+    const winnerName = useMemo(() => {
+        const name =
+            raffleConfig?.ganador ??
+            raffleConfig?.Ganador ??
+            raffleConfig?.winner ??
+            "";
+
+        return typeof name === "string" ? name.trim() : "";
+    }, [raffleConfig]);
+
+    const hasWinner = winnerName.length > 0;
+
     useEffect(() => {
+        if (hasWinner) return undefined;
+
         const interval = setInterval(() => {
             setNow(new Date());
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [hasWinner]);
 
     const endDate = useMemo(() => {
         if (!raffleConfig?.endDate) return null;
@@ -135,11 +149,23 @@ export default function SorteosPage() {
                     )}
 
                     <div className={styles.actions}>
-                        <span className={styles.label}>
-                            Finaliza en
-                        </span>
+                        {hasWinner ? (
+                            <div className={styles.winnerMessage}>
+                                <p className={styles.winnerTitle}>
+                                    ¡Felicidades{" "}
+                                    <strong>{winnerName}</strong>!
+                                </p>
+                                <p className={styles.winnerSubtitle}>
+                                    Ganaste el sorteo
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                <span className={styles.label}>
+                                    Finaliza en
+                                </span>
 
-                        <div className={styles.timer}>
+                                <div className={styles.timer}>
                             <div className={styles.timerItem}>
                                 <strong>{countdown.days}</strong>
                                 <span>Días</span>
@@ -159,9 +185,11 @@ export default function SorteosPage() {
                                 <strong>{countdown.seconds}</strong>
                                 <span>Segundos</span>
                             </div>
-                        </div>
+                                </div>
+                            </>
+                        )}
 
-                        {!countdown.expired ? (
+                        {!hasWinner && !countdown.expired ? (
                             <Link
                                 to="/registro"
                                 className={styles.primaryBtn}
