@@ -21,6 +21,7 @@
   --color-border: #e5e7eb;
   --color-border-light: #eef2f7;
   --color-border-input: #d1d5db;
+  --color-muted-bg: #f3f4f6;
 
   /* Estados */
   --color-success-bg: #dcfce7;
@@ -62,6 +63,36 @@
 
   /* Layout */
   --navbar-height: 78px;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --color-text: #e5e7eb;
+  --color-text-dark: #f8fafc;
+  --color-text-heading: #f8fafc;
+  --color-text-muted: #9ca3af;
+  --color-text-soft: #cbd5e1;
+  --color-text-light: #94a3b8;
+
+  --color-white: #1e293b;
+  --color-bg: #0f172a;
+  --color-border: #334155;
+  --color-border-light: #1e293b;
+  --color-border-input: #475569;
+  --color-muted-bg: #334155;
+
+  --color-success-bg: #14532d;
+  --color-success-text: #86efac;
+  --color-error-bg: #7f1d1d;
+  --color-error-text: #fca5a5;
+
+  --shadow-sm: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 16px 38px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --shadow-arrow: 0 12px 28px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
 }
 
 *,
@@ -125,7 +156,7 @@ img {
   gap: 8px;
 
   span {
-    color: #374151;
+    color: var(--color-text-soft);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
   }
@@ -142,7 +173,7 @@ img {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
     &::placeholder {
-      color: #9ca3af;
+      color: var(--color-text-muted);
     }
 
     &:focus {

@@ -4,6 +4,7 @@ import { FaHome, FaGift } from "react-icons/fa";
 import { LuTags } from "react-icons/lu";
 
 import BrandAvatar from "../BrandAvatar/BrandAvatar";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import styles from "./Navbar.module.scss";
 
 const navItems = [
@@ -21,7 +22,7 @@ export default function Navbar() {
 
   return (
     <header className={styles.navbar}>
-      <nav className="navbar navbar-expand-lg bg-white">
+      <nav className={`navbar navbar-expand-lg ${styles.nav}`}>
         <div className="container">
           <NavLink to="/" className={`navbar-brand ${styles.brandLink}`} onClick={closeMenu}>
             <BrandAvatar name="Kitos" />
@@ -59,6 +60,9 @@ export default function Navbar() {
                   </NavLink>
                 </li>
               ))}
+              <li className="nav-item">
+                <ThemeToggle />
+              </li>
             </ul>
           </div>
         </div>

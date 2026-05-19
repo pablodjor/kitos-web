@@ -23,7 +23,7 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder {
-    color: #9ca3af;
+    color: var(--color-text-muted);
   }
 
   &:focus {
@@ -34,7 +34,7 @@
   &:disabled {
     opacity: 0.65;
     cursor: not-allowed;
-    background: #f3f4f6;
+    background: var(--color-muted-bg);
   }
 }
 

@@ -74,12 +74,12 @@
 
   :global(.custom-prev) {
     left: 4px;
-    border: 1px solid #c9c9c9;
+    border: 1px solid var(--color-border);
   }
 
   :global(.custom-next) {
     right: 4px;
-    border: 1px solid #c9c9c9;
+    border: 1px solid var(--color-border);
   }
 
   :global(.swiper-button-disabled) {

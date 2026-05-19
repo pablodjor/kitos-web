@@ -28,6 +28,24 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Kitos - Sorteos y ofertas</title>
+  <script>
+    (function () {
+      var key = "kitos-theme";
+      var stored = localStorage.getItem(key);
+      var preference =
+        stored === "light" || stored === "dark" || stored === "system"
+          ? stored
+          : "light";
+      var resolved =
+        preference === "light" || preference === "dark"
+          ? preference
+          : window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+      document.documentElement.setAttribute("data-theme", resolved);
+      document.documentElement.setAttribute("data-bs-theme", resolved);
+    })();
+  </script>
 </head>
 
 <body>

@@ -32,7 +32,7 @@
 
   h1 {
     margin: 0 0 18px;
-    color: #050b2c;
+    color: var(--color-text-heading);
     font-size: clamp(32px, 4.5vw, 56px);
     line-height: 0.95;
     font-weight: var(--font-weight-black);
@@ -45,7 +45,7 @@
 
   p {
     margin: 0 0 28px;
-    color: #1f2937;
+    color: var(--color-text-soft);
     font-size: var(--font-size-xl);
     line-height: 1.5;
   }
