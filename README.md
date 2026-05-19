@@ -1,70 +1,173 @@
-# Getting Started with Create React App
+# Kitos Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sitio web de **Kitos** para mostrar ofertas de videojuegos, gestionar sorteos y permitir que la comunidad se registre y canjee códigos secretos. Es una aplicación **React** que se ejecuta en el navegador del usuario; no tiene servidor propio: los datos viven en **Google Sheets** y se acceden mediante un **Google Apps Script** desplegado como Web App.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ¿Qué hace la web?
 
-### `npm start`
+| Sección | Ruta | Descripción |
+|--------|------|-------------|
+| Inicio | `/` | Banner principal, accesos rápidos, últimas ofertas (categoría `home`) y enlace a Telegram |
+| Ofertas | `/ofertas` | Listado de ofertas agrupadas por categoría, con buscador |
+| Ofertas por categoría | `/ofertas/:category` | Vista filtrada de una categoría concreta |
+| Sorteos | `/sorteos` | Información del sorteo activo y cuenta atrás hasta la fecha de cierre |
+| Registro al sorteo | `/registro` | Formulario de inscripción (nombre, email, país) y bases legales |
+| Códigos secretos | `/codigo` | Canje de códigos para sumar participaciones al sorteo |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+La web incluye **modo claro/oscuro**, navegación responsive y enlaces a las redes sociales de Kitos (YouTube, TikTok, Instagram, Telegram, Discord, etc.).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Arquitectura en pocas palabras
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+┌─────────────────┐     HTTPS (fetch)      ┌──────────────────────────┐
+│  Navegador      │ ──────────────────────►│  Google Apps Script      │
+│  (React SPA)    │                        │  (Web App desplegada)    │
+└────────┬────────┘                        └────────────┬─────────────┘
+         │                                                │
+         │  GET países (solo registro)                    │ lee/escribe
+         ▼                                                ▼
+┌─────────────────┐                        ┌──────────────────────────┐
+│  restcountries  │                        │  Google Sheets           │
+│  .com (público) │                        │  (ofertas, usuarios,     │
+└─────────────────┘                        │   sorteo, códigos…)      │
+                                           └──────────────────────────┘
+```
 
-### `npm run build`
+1. El usuario abre la web (archivos estáticos: HTML, JS, CSS).
+2. React pide datos al **script de Google** (`REACT_APP_SCRIPT_URL`).
+3. El script procesa la acción (`getOffers`, `register`, etc.) y habla con la hoja de cálculo.
+4. Solo en el registro se usa además la API pública **REST Countries** para el autocompletado de países.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Importante:** el “backend” no está en este repositorio. Este proyecto es solo el **frontend**. La lógica de negocio (validar emails, guardar participantes, canjear códigos) está en el Apps Script asociado a la URL del `.env`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Stack técnico
 
-### `npm run eject`
+- **React 19** + **Create React App** (`react-scripts`)
+- **React Router** — rutas del sitio
+- **Sass** — estilos por componente (`.module.scss`)
+- **Bootstrap 5** — utilidades base
+- **Swiper** — carruseles de ofertas
+- **react-icons** — iconografía
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Estructura del proyecto
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── App.js                 # Rutas principales
+├── context/
+│   └── ThemeContext.jsx   # Tema claro/oscuro
+├── layouts/
+│   └── MainLayout/        # Navbar + contenido + Footer
+├── pages/                 # Una carpeta por pantalla
+├── components/            # Piezas reutilizables (tarjetas, modales, etc.)
+├── services/
+│   ├── googleSheetService.js   # Todas las llamadas al Apps Script
+│   └── countriesService.js     # Lista de países (REST Countries)
+├── utils/                 # Helpers (filtros, precios, categorías)
+└── constants/
+    └── socialLinks.js     # URLs de redes sociales
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Cómo se comunica con Google Sheets
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+El archivo `src/services/googleSheetService.js` envía peticiones **POST** al Web App con un cuerpo JSON que incluye `action`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| `action` | Uso |
+|----------|-----|
+| `getOffers` | Traer todas las ofertas |
+| `getRaffleConfig` | Config del sorteo (fechas, premio, ganador si ya hay) |
+| `getLegalBases` | Texto de las bases legales |
+| `register` | Registrar usuario en el sorteo (`name`, `email`, `country`) |
+| `redeemCode` | Canjear código secreto (`email`, `code`) |
 
-### Code Splitting
+La URL del script se configura con la variable de entorno:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```env
+REACT_APP_SCRIPT_URL=https://script.google.com/macros/s/.../exec
+```
 
-### Analyzing the Bundle Size
+Sin esa variable, las funciones del servicio lanzan error al intentar usarlas.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Lógica de negocio relevante (frontend)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **Registro cerrado** si la fecha de fin del sorteo ya pasó **o** si en la hoja ya hay un ganador cargado.
+- **Ofertas en home**: solo las que tienen `category === "home"` (sin distinguir mayúsculas).
+- **Categorías en /ofertas**: se agrupan por el campo `category` de cada oferta; si viene vacío, cae en `"Otras ofertas"`.
+- **Países**: se cachean en memoria tras la primera carga para no repetir la petición a REST Countries.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Cómo arrancar el proyecto en local
 
-### Deployment
+### Requisitos
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Node.js (LTS recomendado)
+- npm
 
-### `npm run build` fails to minify
+### Pasos
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Clonar el repositorio e instalar dependencias:
+
+   ```bash
+   npm install
+   ```
+
+2. Crear un archivo `.env` en la raíz (no se sube a Git) con la URL del Apps Script:
+
+   ```env
+   REACT_APP_SCRIPT_URL=https://script.google.com/macros/s/TU_SCRIPT/exec
+   ```
+
+3. Arrancar en desarrollo:
+
+   ```bash
+   npm start
+   ```
+
+   Abre [http://localhost:3000](http://localhost:3000).
+
+4. Build de producción:
+
+   ```bash
+   npm run build
+   ```
+
+   Genera la carpeta `build/` con archivos estáticos listos para subir a cualquier hosting (Netlify, Vercel, Cloudflare Pages, S3 + CDN, etc.).
+
+---
+
+## Despliegue
+
+- Solo hace falta **alojar archivos estáticos** (lo que sale de `npm run build`).
+- En el hosting hay que definir la variable `REACT_APP_SCRIPT_URL` **en el momento del build** (Create React App la embebe en el bundle).
+- El cuello de botella con mucho tráfico suele ser el **Apps Script / Google Sheets** (límites de cuotas de Google), no el servidor que sirve el HTML/JS.
+- Para rutas como `/ofertas` o `/registro`, el hosting debe redirigir todas las URLs a `index.html` (configuración típica de SPA).
+
+---
+
+## Scripts disponibles
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm start` | Servidor de desarrollo con recarga en caliente |
+| `npm run build` | Build optimizado para producción |
+| `npm test` | Tests con Jest (configuración por defecto de CRA) |
+
+---
+
+## Resumen para explicárselo a alguien
+
+> “Es la web de Kitos: un React que se sube como página estática. Las ofertas y los sorteos no están en una base de datos nuestra, sino en Google Sheets; un Apps Script hace de API. El usuario se registra, canjea códigos y ve ofertas; nosotros editamos contenido desde la hoja sin tocar código.”
+
+Si necesitás estimar hosting según visitas, tené en cuenta: **tráfico bajo en el servidor web** (solo JS/CSS/imágenes) y **límites de Google** en escrituras/lecturas del script y la hoja cuando hay picos de registros o canjes.
