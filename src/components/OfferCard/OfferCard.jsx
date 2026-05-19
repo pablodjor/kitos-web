@@ -1,8 +1,12 @@
 import { LuBadgePercent } from "react-icons/lu";
+
+import { formatPrice } from "../../utils/formatPrice";
 import styles from "./OfferCard.module.scss";
 
 export default function OfferCard({ offer, variant = "home" }) {
   const discountLabel = offer.discount || (variant === "home" ? "Oferta" : null);
+  const formattedPrice = formatPrice(offer.price);
+  const formattedOldPrice = formatPrice(offer.oldPrice);
 
   if (variant === "page") {
     return (
@@ -32,8 +36,12 @@ export default function OfferCard({ offer, variant = "home" }) {
           )}
 
           <div className={styles.priceRow}>
-            {offer.price && <strong className={styles.price}>{offer.price}</strong>}
-            {offer.oldPrice && <span className={styles.oldPrice}>{offer.oldPrice}</span>}
+            {formattedPrice && (
+              <strong className={styles.price}>{formattedPrice}</strong>
+            )}
+            {formattedOldPrice && (
+              <span className={styles.oldPrice}>{formattedOldPrice}</span>
+            )}
           </div>
 
           <a
@@ -65,7 +73,16 @@ export default function OfferCard({ offer, variant = "home" }) {
 
       {offer.description && <p>{offer.description}</p>}
 
-      {offer.price && <strong>{offer.price}</strong>}
+      {(formattedPrice || formattedOldPrice) && (
+        <div className={styles.priceRow}>
+          {formattedPrice && (
+            <strong className={styles.price}>{formattedPrice}</strong>
+          )}
+          {formattedOldPrice && (
+            <span className={styles.oldPrice}>{formattedOldPrice}</span>
+          )}
+        </div>
+      )}
 
       <a href={offer.link} target="_blank" rel="noreferrer">
         Ver oferta

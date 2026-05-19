@@ -21,12 +21,21 @@
     font-size: var(--font-size-base);
   }
 
-  strong {
-    display: block;
+  .priceRow {
     margin-bottom: 16px;
+  }
+
+  .price {
     color: var(--color-secondary);
     font-size: 20px;
     font-weight: var(--font-weight-black);
+  }
+
+  .oldPrice {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-decoration: line-through;
   }
 
   a {
