@@ -6,9 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 import { getOffers } from "../../services/googleSheetService";
+import { filterOffersBySearch } from "../../utils/filterOffersBySearch";
 import { getOfferCategory } from "../../utils/offerCategory";
 import Loader from "../../components/Loader/Loader";
 import OfferCard from "../../components/OfferCard/OfferCard";
+import OffersSearch from "../../components/OffersSearch/OffersSearch";
 import SwiperArrow from "../../components/SwiperArrow/SwiperArrow";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import styles from "./OffersPage.module.scss";
@@ -70,6 +72,7 @@ function CategoryOffersSwiper({ offers, categoryTitle }) {
 
 export default function OffersPage() {
   const [offers, setOffers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -91,10 +94,15 @@ export default function OffersPage() {
     loadOffers();
   }, []);
 
+  const filteredOffers = useMemo(
+    () => filterOffersBySearch(offers, searchQuery),
+    [offers, searchQuery]
+  );
+
   const offersByCategory = useMemo(() => {
     const grouped = {};
 
-    offers.forEach((offer) => {
+    filteredOffers.forEach((offer) => {
       let category = getOfferCategory(offer);
 
       if (category.toLowerCase() === "home") {
@@ -114,14 +122,25 @@ export default function OffersPage() {
         offers: categoryOffers,
       }))
       .sort((a, b) => {
-        if (a.title === "Otras ofertas") return 1;
-        if (b.title === "Otras ofertas") return -1;
-        return 0;
+        if (a.title === "Ofertas destacadas") return 1;
+        if (b.title === "Ofertas destacadas") return -1;
+        return a.title.localeCompare(b.title, "es");
       });
-  }, [offers]);
+  }, [filteredOffers]);
+
+  const hasSearchQuery = searchQuery.trim().length > 0;
 
   return (
     <div className={styles.page}>
+      {!loading && !message && offers.length > 0 && (
+        <div className={styles.searchBar}>
+          <OffersSearch
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+        </div>
+      )}
+
       {loading && <Loader message="Cargando ofertas..." />}
 
       {!loading && message && (
@@ -131,6 +150,16 @@ export default function OffersPage() {
       {!loading && !message && offers.length === 0 && (
         <StatusMessage>No hay ofertas activas por el momento.</StatusMessage>
       )}
+
+      {!loading &&
+        !message &&
+        hasSearchQuery &&
+        offers.length > 0 &&
+        offersByCategory.length === 0 && (
+          <StatusMessage>
+            No se encontraron ofertas con &quot;{searchQuery.trim()}&quot;.
+          </StatusMessage>
+        )}
 
       {!loading &&
         !message &&
@@ -161,3 +190,4 @@ export default function OffersPage() {
     </div>
   );
 }
+

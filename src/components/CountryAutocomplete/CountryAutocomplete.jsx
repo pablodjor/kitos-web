@@ -168,6 +168,7 @@ export default function CountryAutocomplete({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
+          maxLength={50}
           autoComplete="off"
           role="combobox"
           aria-expanded={showDropdown}

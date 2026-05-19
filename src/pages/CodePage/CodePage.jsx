@@ -76,6 +76,7 @@ export default function CodePage() {
               placeholder="Ej: tuemail@gmail.com"
               value={form.email}
               onChange={handleChange}
+              maxLength={50}
               required
             />
           </label>
@@ -89,6 +90,7 @@ export default function CodePage() {
               placeholder="Ej: ABC123"
               value={form.code}
               onChange={handleChange}
+              maxLength={50}
               required
             />
           </label>

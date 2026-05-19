@@ -229,6 +229,7 @@ export default function RegisterSorteoPage() {
               placeholder="Nombre y apellido"
               value={form.name}
               onChange={handleChange}
+              maxLength={50}
               required
               disabled={isDisabled}
             />
@@ -241,6 +242,7 @@ export default function RegisterSorteoPage() {
               placeholder="Tu email"
               value={form.email}
               onChange={handleChange}
+              maxLength={50}
               required
               disabled={isDisabled}
             />

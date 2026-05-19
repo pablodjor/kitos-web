@@ -1,3 +1,8 @@
+.searchBar {
+  max-width: 1210px;
+  margin: 0 auto 24px;
+}
+
 .page {
   min-height: calc(100vh - var(--navbar-height));
   padding: 34px 32px 24px;
@@ -95,6 +100,10 @@
 }
 
 @media (max-width: 650px) {
+  .searchBar {
+    margin-bottom: 18px;
+  }
+
   .page {
     padding: 24px 14px;
   }
