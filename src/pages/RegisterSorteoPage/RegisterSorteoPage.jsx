@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { getCountries } from "../../services/countriesService";
 import {
   getRaffleConfig,
   registerUser,
@@ -8,7 +9,8 @@ import Loader from "../../components/Loader/Loader";
 import styles from "./RegisterSorteoPage.module.scss";
 
 export default function RegisterSorteoPage() {
-  const [form, setForm] = useState({ name: "", email: "" });
+  const [form, setForm] = useState({ name: "", email: "", country: "" });
+  const [countries, setCountries] = useState([]);
   const [raffleConfig, setRaffleConfig] = useState(null);
   const [loadingConfig, setLoadingConfig] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -16,12 +18,16 @@ export default function RegisterSorteoPage() {
   const [messageType, setMessageType] = useState("");
 
   useEffect(() => {
-    async function loadRaffleConfig() {
+    async function loadInitialData() {
       setLoadingConfig(true);
 
       try {
-        const data = await getRaffleConfig();
-        setRaffleConfig(data);
+        const [config, countriesList] = await Promise.all([
+          getRaffleConfig(),
+          getCountries(),
+        ]);
+        setRaffleConfig(config);
+        setCountries(countriesList);
       } catch (error) {
         console.error(error.message);
       } finally {
@@ -29,7 +35,7 @@ export default function RegisterSorteoPage() {
       }
     }
 
-    loadRaffleConfig();
+    loadInitialData();
   }, []);
 
   const isRaffleExpired = useMemo(() => {
@@ -67,11 +73,12 @@ export default function RegisterSorteoPage() {
       const data = await registerUser({
         name: form.name,
         email: form.email,
+        country: form.country,
       });
 
       setMessage(data.message);
       setMessageType("success");
-      setForm({ name: "", email: "" });
+      setForm({ name: "", email: "", country: "" });
     } catch (error) {
       setMessage(error.message);
       setMessageType("error");
@@ -139,6 +146,25 @@ export default function RegisterSorteoPage() {
               required
               disabled={isDisabled}
             />
+          </label>
+
+          <label className="form-field">
+            <select
+              name="country"
+              value={form.country}
+              onChange={handleChange}
+              required
+              disabled={isDisabled}
+            >
+              <option value="" disabled>
+                Seleccioná tu país
+              </option>
+              {countries.map((country) => (
+                <option key={country.code} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
           </label>
 
           <button

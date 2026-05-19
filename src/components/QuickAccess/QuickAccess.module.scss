@@ -55,7 +55,7 @@
   display: grid;
   place-items: center;
   color: var(--color-white);
-  font-size: 34px;
+  font-size: var(--font-size-2xl);
 }
 
 .orange {
@@ -85,5 +85,51 @@
 
   a {
     color: var(--color-primary-dark);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    margin-top: -18px;
+    padding: 20px 0 28px;
+    border-radius: 20px 20px 0 0;
+
+    :global(.row.g-4) {
+      --bs-gutter-x: 0.65rem;
+      --bs-gutter-y: 0.65rem;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  .card {
+    min-height: auto;
+    padding: 18px 16px 20px;
+    border-radius: var(--radius-lg);
+
+    h3 {
+      margin: 10px 0 8px;
+      font-size: var(--font-size-lg);
+    }
+
+    p {
+      max-width: none;
+      margin: 0 auto 14px;
+      font-size: var(--font-size-sm);
+      line-height: 1.45;
+    }
+
+    a {
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  .icon {
+    width: 52px;
+    height: 52px;
+    font-size: var(--font-size-xl);
   }
 }

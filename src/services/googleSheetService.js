@@ -1,6 +1,6 @@
 const scriptUrl = process.env.REACT_APP_SCRIPT_URL;
 
-export async function registerUser({ name, email }) {
+export async function registerUser({ name, email, country }) {
   if (!scriptUrl) {
     throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
   }
@@ -11,6 +11,7 @@ export async function registerUser({ name, email }) {
       action: "register",
       name,
       email,
+      country,
     }),
   });
 

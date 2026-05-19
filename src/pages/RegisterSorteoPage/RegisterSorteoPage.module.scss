@@ -21,9 +21,28 @@
   box-shadow: var(--shadow-md);
   text-align: center;
 
-  :global(.form-field input:focus) {
+  :global(.form-field input:focus),
+  :global(.form-field select:focus) {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 4px rgba(72, 151, 216, 0.15);
+  }
+
+  :global(.form-field select) {
+    height: 48px;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-lg);
+    padding: 0 14px;
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    outline: none;
+    background: var(--color-white);
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:invalid {
+      color: #9ca3af;
+    }
   }
 }
 
@@ -166,7 +185,8 @@
   background: #9ca3af;
 }
 
-.card input:disabled {
+.card input:disabled,
+.card select:disabled {
   opacity: 0.65;
   cursor: not-allowed;
   background: #f3f4f6;

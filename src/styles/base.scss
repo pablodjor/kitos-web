@@ -37,14 +37,14 @@
   --font-weight-bold: 800;
   --font-weight-black: 950;
 
-  --font-size-xs: 12px;
-  --font-size-sm: 13px;
-  --font-size-base: 14px;
-  --font-size-md: 15px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 22px;
-  --font-size-3xl: 30px;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 15px;
+  --font-size-xl: 16px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 26px;
 
   /* Espaciado */
   --radius-sm: 8px;
@@ -79,11 +79,26 @@ body,
 body {
   margin: 0;
   font-family: var(--font-family);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --font-size-xs: 10px;
+    --font-size-sm: 11px;
+    --font-size-base: 12px;
+    --font-size-md: 13px;
+    --font-size-lg: 14px;
+    --font-size-xl: 15px;
+    --font-size-2xl: 17px;
+    --font-size-3xl: 22px;
+    --navbar-height: 68px;
+  }
 }
 
 a {

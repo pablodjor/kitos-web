@@ -1,11 +1,5 @@
-import {
-  FaYoutube,
-  FaInstagram,
-  FaTwitch,
-  FaTelegramPlane,
-  FaDiscord,
-} from "react-icons/fa";
-import { SiTiktok, SiThreads } from "react-icons/si";
+import { FaYoutube, FaInstagram, FaFacebook } from "react-icons/fa";
+import { SiTiktok } from "react-icons/si";
 import { SOCIAL_URLS } from "../../constants/socialLinks";
 import imageBanner from "./image/imageBanner2.png";
 import styles from "./HomeHero.module.scss";
@@ -19,8 +13,8 @@ export default function HomeHero() {
   return (
     <section className={styles.hero}>
       <div className="container">
-        <div className="row align-items-center min-vh-custom">
-          <div className="col-12 col-lg-5 p-0">
+        <div className={`row align-items-center ${styles.heroRow}`}>
+          <div className={`col-12 col-lg-5 p-0 ${styles.heroImageCol}`}>
             <div className={styles.heroPerson}>
               <img
                 src={imageBanner}
@@ -38,8 +32,6 @@ export default function HomeHero() {
 
               <p>
                 Las mejores ofertas en hardware, juegos y más.
-                <br />
-                ¡No te pierdas nada!
               </p>
 
               <div className={styles.socials}>
@@ -65,32 +57,11 @@ export default function HomeHero() {
                   <FaInstagram />
                 </a>
                 <a
-                  href={SOCIAL_URLS.twitch}
-                  aria-label="Twitch"
+                  href={SOCIAL_URLS.facebook}
+                  aria-label="Facebook"
                   {...externalLinkProps}
                 >
-                  <FaTwitch />
-                </a>
-                <a
-                  href={SOCIAL_URLS.telegram}
-                  aria-label="Telegram"
-                  {...externalLinkProps}
-                >
-                  <FaTelegramPlane />
-                </a>
-                <a
-                  href={SOCIAL_URLS.threads}
-                  aria-label="Threads"
-                  {...externalLinkProps}
-                >
-                  <SiThreads />
-                </a>
-                <a
-                  href={SOCIAL_URLS.discord}
-                  aria-label="Discord"
-                  {...externalLinkProps}
-                >
-                  <FaDiscord />
+                  <FaFacebook />
                 </a>
               </div>
             </div>

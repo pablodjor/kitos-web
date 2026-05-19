@@ -34,7 +34,7 @@ export default function QuickAccess() {
     return (
         <section className={styles.section}>
             <div className="container">
-                <h2>⚡ Accesos rápidos</h2>
+                {/* <h2>⚡ Accesos rápidos</h2> */}
 
                 <div className="row g-4">
                     {items.map((item) => (
