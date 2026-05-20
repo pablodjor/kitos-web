@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaGift } from "react-icons/fa";
+import { FaArrowRight, FaClipboardList, FaGift } from "react-icons/fa";
+import { LuTicket } from "react-icons/lu";
 
 import Loader from "../../components/Loader/Loader";
 import { getRaffleConfig } from "../../services/googleSheetService";
@@ -209,21 +210,54 @@ export default function SorteosPage() {
                 </div>
             </section>
 
-            <section className={styles.categoryBlock}>
-                <div className={styles.codeContent}>
-                    <p>
-                        Consigue más participaciones para el sorteo
-                        introduciendo códigos secretos
-                    </p>
+            <div className={styles.actionGrid}>
+                <article
+                    className={`${styles.actionCard} ${styles.actionCardPrimary}`}
+                >
+                    <span className={styles.actionIcon}>
+                        <LuTicket />
+                    </span>
+
+                    <div className={styles.actionBody}>
+                        <h4>Canjear código</h4>
+                        <p>
+                            Introduce códigos secretos y suma más
+                            participaciones al sorteo.
+                        </p>
+                    </div>
+
+                    <Link to="/codigo" className={styles.actionBtn}>
+                        <LuTicket />
+                        Código secreto
+                        <FaArrowRight />
+                    </Link>
+                </article>
+
+                <article
+                    className={`${styles.actionCard} ${styles.actionCardAccent}`}
+                >
+                    <span className={styles.actionIcon}>
+                        <FaClipboardList />
+                    </span>
+
+                    <div className={styles.actionBody}>
+                        <h4>Mis participaciones</h4>
+                        <p>
+                            Consulta cuántas participaciones tienes
+                            acumuladas con tu correo.
+                        </p>
+                    </div>
 
                     <Link
-                        to="/codigo"
-                        className={styles.secretBtn}
+                        to="/mis-participaciones"
+                        className={styles.actionBtn}
                     >
-                        Código secreto
+                        <FaClipboardList />
+                        Ver participaciones
+                        <FaArrowRight />
                     </Link>
-                </div>
-            </section>
+                </article>
+            </div>
         </div>
     );
 }

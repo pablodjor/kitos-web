@@ -7,6 +7,76 @@
   --color-primary-dark: #3a7ab8;
   --color-secondary-dark: #e85a47;
 
+  /* Sorteos — identidad coral/naranja */
+  --raffle-gradient: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    #ff9d4d 100%
+  );
+  --raffle-gradient-hover: linear-gradient(
+    135deg,
+    var(--color-secondary-dark) 0%,
+    #f97316 100%
+  );
+  --raffle-glow: rgba(250, 110, 89, 0.12);
+  --raffle-glow-soft: rgba(250, 110, 89, 0.08);
+  --raffle-badge-bg: rgba(250, 110, 89, 0.15);
+  --raffle-border: rgba(250, 110, 89, 0.2);
+  --raffle-surface: rgba(250, 110, 89, 0.08);
+  --raffle-surface-strong: rgba(250, 110, 89, 0.12);
+  --raffle-focus-ring: 0 0 0 4px rgba(250, 110, 89, 0.18);
+  --raffle-shadow-btn: 0 8px 22px rgba(250, 110, 89, 0.3);
+  --raffle-shadow-btn-hover: 0 12px 28px rgba(250, 110, 89, 0.4);
+  --raffle-shadow-card: 0 12px 36px rgba(250, 110, 89, 0.12);
+  --raffle-shadow-card-hover: 0 16px 42px rgba(250, 110, 89, 0.18);
+
+  /* Marca primaria (azul) — canjear código */
+  --brand-primary-gradient: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    #6bb3e8 100%
+  );
+  --brand-primary-gradient-hover: linear-gradient(
+    135deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 100%
+  );
+  --brand-primary-glow: rgba(72, 151, 216, 0.12);
+  --brand-primary-glow-soft: rgba(72, 151, 216, 0.08);
+  --brand-primary-badge-bg: rgba(72, 151, 216, 0.15);
+  --brand-primary-border: rgba(72, 151, 216, 0.22);
+  --brand-primary-surface: rgba(72, 151, 216, 0.08);
+  --brand-primary-focus-ring: 0 0 0 4px rgba(72, 151, 216, 0.18);
+  --brand-primary-shadow-btn: 0 8px 22px rgba(72, 151, 216, 0.3);
+  --brand-primary-shadow-btn-hover: 0 12px 28px rgba(72, 151, 216, 0.4);
+  --brand-primary-shadow-card: 0 12px 36px rgba(72, 151, 216, 0.12);
+  --brand-primary-shadow-card-hover: 0 16px 42px rgba(72, 151, 216, 0.18);
+
+  /* Acento violeta — mis participaciones */
+  --color-accent: #8b5cf6;
+  --color-accent-dark: #6d28d9;
+  --brand-accent-gradient: linear-gradient(
+    135deg,
+    var(--color-accent) 0%,
+    #a78bfa 100%
+  );
+  --brand-accent-gradient-hover: linear-gradient(
+    135deg,
+    var(--color-accent-dark) 0%,
+    var(--color-accent) 100%
+  );
+  --brand-accent-glow: rgba(139, 92, 246, 0.12);
+  --brand-accent-glow-soft: rgba(139, 92, 246, 0.08);
+  --brand-accent-badge-bg: rgba(139, 92, 246, 0.15);
+  --brand-accent-border: rgba(139, 92, 246, 0.22);
+  --brand-accent-surface: rgba(139, 92, 246, 0.08);
+  --brand-accent-surface-strong: rgba(139, 92, 246, 0.12);
+  --brand-accent-focus-ring: 0 0 0 4px rgba(139, 92, 246, 0.18);
+  --brand-accent-shadow-btn: 0 8px 22px rgba(139, 92, 246, 0.32);
+  --brand-accent-shadow-btn-hover: 0 12px 28px rgba(139, 92, 246, 0.42);
+  --brand-accent-shadow-card: 0 12px 36px rgba(139, 92, 246, 0.12);
+  --brand-accent-shadow-card-hover: 0 16px 42px rgba(139, 92, 246, 0.18);
+
   /* Texto */
   --color-text: #111827;
   --color-text-dark: #0f172a;
@@ -91,6 +161,28 @@
   --shadow-md: 0 16px 38px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
   --shadow-arrow: 0 12px 28px rgba(0, 0, 0, 0.45);
+
+  --raffle-glow: rgba(250, 110, 89, 0.16);
+  --raffle-glow-soft: rgba(250, 110, 89, 0.1);
+  --raffle-border: rgba(250, 110, 89, 0.28);
+  --raffle-shadow-btn: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --raffle-shadow-btn-hover: 0 12px 28px rgba(250, 110, 89, 0.25);
+  --raffle-shadow-card: 0 12px 36px rgba(0, 0, 0, 0.28);
+  --raffle-shadow-card-hover: 0 16px 42px rgba(250, 110, 89, 0.15);
+
+  --brand-primary-glow: rgba(72, 151, 216, 0.16);
+  --brand-primary-border: rgba(72, 151, 216, 0.3);
+  --brand-primary-shadow-btn: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --brand-primary-shadow-btn-hover: 0 12px 28px rgba(72, 151, 216, 0.25);
+  --brand-primary-shadow-card: 0 12px 36px rgba(0, 0, 0, 0.28);
+  --brand-primary-shadow-card-hover: 0 16px 42px rgba(72, 151, 216, 0.15);
+
+  --brand-accent-glow: rgba(139, 92, 246, 0.18);
+  --brand-accent-border: rgba(139, 92, 246, 0.32);
+  --brand-accent-shadow-btn: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --brand-accent-shadow-btn-hover: 0 12px 28px rgba(139, 92, 246, 0.28);
+  --brand-accent-shadow-card: 0 12px 36px rgba(0, 0, 0, 0.28);
+  --brand-accent-shadow-card-hover: 0 16px 42px rgba(139, 92, 246, 0.16);
 
   color-scheme: dark;
 }

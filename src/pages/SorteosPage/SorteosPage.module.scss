@@ -1,9 +1,9 @@
+@import "../../styles/raffle-theme";
+
 .page {
   min-height: calc(100vh - var(--navbar-height));
   padding: 34px 32px 24px;
-  background:
-    radial-gradient(circle at top left, rgba(250, 110, 89, 0.08), transparent 34%),
-    linear-gradient(180deg, var(--color-white) 0%, var(--color-bg) 100%);
+  @include raffle-page-bg(top left);
 }
 
 .categoryBlock {
@@ -11,12 +11,7 @@
   max-width: 1210px;
   margin: 0 auto 20px;
   padding: 30px 34px 28px 70px;
-  border: 1px solid var(--color-border);
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 12% 20%, rgba(250, 110, 89, 0.08), transparent 24%),
-    var(--color-white);
-  overflow: hidden;
+  @include raffle-block-surface;
 }
 
 .categoryHeader {
@@ -43,15 +38,7 @@
 }
 
 .icon {
-  width: 50px;
-  height: 50px;
-  border-radius: var(--radius-lg);
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--color-secondary), #ff9d4d);
-  color: var(--color-white);
-  font-size: 25px;
-  flex-shrink: 0;
+  @include raffle-icon-box(50px, 25px);
 }
 
 .eyebrow {
@@ -107,12 +94,13 @@
 
 .winnerMessage {
   padding: 20px 18px;
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--raffle-border);
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at top right, rgba(250, 110, 89, 0.12), transparent 55%),
+    radial-gradient(circle at top right, var(--raffle-glow), transparent 55%),
     var(--color-white);
   text-align: center;
+  box-shadow: var(--raffle-shadow-card);
 }
 
 .winnerTitle {
@@ -143,11 +131,12 @@
 }
 
 .timerItem {
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--raffle-border);
   border-radius: var(--radius-lg);
   padding: 12px 6px;
   text-align: center;
   background: var(--color-white);
+  box-shadow: 0 4px 14px rgba(250, 110, 89, 0.06);
 
   strong {
     display: block;
@@ -167,64 +156,98 @@
   }
 }
 
-.primaryBtn,
-.secretBtn {
-  border: 0;
+.primaryBtn {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-weight: var(--font-weight-black);
-  color: var(--color-white);
-  background: linear-gradient(135deg, var(--color-secondary), #ff9d4d);
-  transition: 0.2s ease;
-  cursor: pointer;
-
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    color: var(--color-white);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-.primaryBtn {
-  min-height: 52px;
-  border-radius: var(--radius-md);
   font-size: var(--font-size-base);
   text-transform: uppercase;
+  min-height: 52px;
+  border-radius: var(--radius-md);
+  @include raffle-btn;
 }
 
-.codeContent {
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1210px;
+  margin: 0 auto;
+}
+
+.actionCard {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 24px;
+  border-radius: 20px;
+}
+
+.actionCardPrimary {
+  @include brand-primary-action-card;
+
+  .actionIcon {
+    @include brand-primary-icon-box(52px, 22px);
+  }
+
+  .actionBtn {
+    @include brand-primary-btn;
+  }
+}
+
+.actionCardAccent {
+  @include brand-accent-action-card;
+
+  .actionIcon {
+    @include brand-accent-icon-box(52px, 22px);
+  }
+
+  .actionBtn {
+    @include brand-accent-btn;
+  }
+}
+
+.actionBtn {
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 24px;
-  padding: 12px 0;
+  gap: 10px;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+
+  svg:last-child {
+    font-size: 12px;
+    opacity: 0.9;
+  }
+}
+
+.actionBody {
+  flex: 1;
+  min-width: 0;
+
+  h4 {
+    margin: 0 0 6px;
+    color: var(--color-text-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-black);
+    line-height: 1.2;
+  }
 
   p {
     margin: 0;
-    max-width: 560px;
-    color: var(--color-text-heading);
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-black);
-    line-height: 1.3;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.45;
   }
-}
-
-.secretBtn {
-  min-width: 280px;
-  min-height: 56px;
-  padding: 0 32px;
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-xl);
-  text-transform: uppercase;
 }
 
 @media (max-width: 1050px) {
@@ -241,6 +264,18 @@
   .actions {
     max-width: 420px;
     margin: 0 auto;
+    width: 100%;
+  }
+
+  .actionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionCard {
+    flex-wrap: wrap;
+  }
+
+  .actionBtn {
     width: 100%;
   }
 }
@@ -269,26 +304,41 @@
   }
 
   .icon {
-    width: 46px;
-    height: 46px;
-    font-size: 21px;
+    @include raffle-icon-box(46px, 21px);
   }
 
   .description {
     font-size: var(--font-size-base);
   }
 
-  .primaryBtn,
-  .secretBtn {
+  .primaryBtn {
     width: 100%;
-    min-width: 100%;
   }
 
-  .codeContent p {
-    font-size: var(--font-size-xl);
+  .actionGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .secretBtn {
-    font-size: var(--font-size-lg);
+  .actionCard {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: 20px 18px;
+    gap: 14px;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .actionIcon {
+    margin: 0 auto;
+  }
+
+  .actionBtn {
+    width: 100%;
+    min-height: 48px;
+    font-size: var(--font-size-base);
   }
 }

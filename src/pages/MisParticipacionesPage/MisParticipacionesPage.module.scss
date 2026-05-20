@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 34px 16px;
-  @include brand-primary-page-bg(top right);
+  @include brand-accent-page-bg(top right);
 }
 
 .card {
@@ -14,10 +14,10 @@
   max-width: 480px;
   padding: 32px;
   text-align: center;
-  @include brand-primary-card-surface(88% 8%);
+  @include brand-accent-card-surface(88% 8%);
 
   :global(.form-field input:focus) {
-    @include brand-primary-input-focus;
+    @include brand-accent-input-focus;
   }
 }
 
@@ -41,7 +41,7 @@
 }
 
 .badge {
-  @include brand-primary-badge;
+  @include brand-accent-badge;
 }
 
 .submitBtn {
@@ -49,7 +49,24 @@
   border-radius: var(--radius-md);
   text-transform: uppercase;
   font-size: var(--font-size-base);
-  @include brand-primary-btn;
+  @include brand-accent-btn;
+}
+
+.participations {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--brand-accent-border);
+  background: var(--brand-accent-surface-strong);
+  color: var(--color-text-heading);
+  font-size: var(--font-size-lg);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
+
+  strong {
+    color: var(--color-accent);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+  }
 }
 
 @media (max-width: 480px) {

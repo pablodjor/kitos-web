@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import SorteosPage from "./pages/SorteosPage/SorteosPage";
 import RegisterSorteoPage from "./pages/RegisterSorteoPage/RegisterSorteoPage";
 import CodePage from "./pages/CodePage/CodePage";
+import MisParticipacionesPage from "./pages/MisParticipacionesPage/MisParticipacionesPage";
 import OffersPage from "./pages/OffersPage/OffersPage";
 import CategoryOffersPage from "./pages/CategoryOffersPage/CategoryOffersPage";
 
@@ -22,6 +23,10 @@ function App() {
             <Route path="/sorteos" element={<SorteosPage />} />
             <Route path="/registro" element={<RegisterSorteoPage />} />
             <Route path="/codigo" element={<CodePage />} />
+            <Route
+              path="/mis-participaciones"
+              element={<MisParticipacionesPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

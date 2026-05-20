@@ -24,6 +24,28 @@ export async function registerUser({ name, email, country }) {
   return data;
 }
 
+export async function getParticipations({ email }) {
+  if (!scriptUrl) {
+    throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
+  }
+
+  const response = await fetch(scriptUrl, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "getParticipations",
+      email,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!data.ok) {
+    throw new Error(data.message || "Error al consultar participaciones");
+  }
+
+  return data;
+}
+
 export async function redeemCode({ email, code }) {
   if (!scriptUrl) {
     throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
