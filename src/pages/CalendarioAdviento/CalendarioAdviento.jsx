@@ -205,7 +205,9 @@ function CalendarioAdviento() {
       </section>
 
       <section className={styles.calendarSection}>
-        {errorMessage && <p>{errorMessage}</p>}
+        {errorMessage && (
+          <p className={styles.errorMessage}>{errorMessage}</p>
+        )}
 
         <div className={styles.calendarGrid}>
           {calendarDays.map((item) => {
