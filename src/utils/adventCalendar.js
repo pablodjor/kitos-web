@@ -119,6 +119,12 @@ export function getRemainingMs(revealFrom, now = Date.now()) {
   return revealTime - now;
 }
 
+export function getLastCalendarDayNumber(days = []) {
+  if (!days.length) return null;
+
+  return Math.max(...days.map((item) => item.day));
+}
+
 export function formatCountdown(remainingMs) {
   if (remainingMs === null || remainingMs <= 0) return null;
 

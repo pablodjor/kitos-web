@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import confetti from "canvas-confetti";
 import calendarioAdvientoImage from "../../assets/images/calendario_adviento.png";
 import Loader from "../../components/Loader/Loader";
 import PageSnow from "../../components/PageSnow/PageSnow";
@@ -8,30 +7,17 @@ import { getAdventCalendar } from "../../services/googleSheetService";
 import {
   applyRevealState,
   formatCountdown,
+  getLastCalendarDayNumber,
   getRemainingMs,
   normalizeAdventCalendarDays,
 } from "../../utils/adventCalendar";
+import {
+  launchConfetti,
+  launchGrandFinale,
+} from "../../utils/adventFinaleEffects";
 import styles from "./CalendarioAdviento.module.scss";
 
 const STORAGE_KEY = "kitos-opened-days";
-
-const GOLD_CONFETTI_COLORS = [
-  "#FFD700",
-  "#FFC107",
-  "#FDB931",
-  "#FFE066",
-  "#D4AF37",
-  "#FFEC8B",
-];
-
-const GOLD_CONFETTI_BASE = {
-  colors: GOLD_CONFETTI_COLORS,
-  shapes: ["square"],
-  scalar: 1.05,
-  ticks: 220,
-  gravity: 0.9,
-  decay: 0.92,
-};
 
 function CalendarioAdviento() {
   const [calendarDays, setCalendarDays] = useState([]);
@@ -86,33 +72,6 @@ function CalendarioAdviento() {
     loadCalendar();
   }, []);
 
-  const launchConfetti = () => {
-    confetti({
-      ...GOLD_CONFETTI_BASE,
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.65 },
-    });
-
-    setTimeout(() => {
-      confetti({
-        ...GOLD_CONFETTI_BASE,
-        particleCount: 80,
-        spread: 120,
-        origin: { x: 0.2, y: 0.55 },
-      });
-    }, 250);
-
-    setTimeout(() => {
-      confetti({
-        ...GOLD_CONFETTI_BASE,
-        particleCount: 80,
-        spread: 120,
-        origin: { x: 0.8, y: 0.55 },
-      });
-    }, 450);
-  };
-
   const saveOpenedDay = (day) => {
     setOpenedDays((prevDays) => {
       const updatedDays = Array.from(new Set([...prevDays, day]));
@@ -132,9 +91,17 @@ function CalendarioAdviento() {
       return;
     }
 
+    const lastDayNumber = getLastCalendarDayNumber(calendarDays);
+    const isLastDay = lastDayNumber !== null && item.day === lastDayNumber;
+
     setOpeningDay(item.day);
     saveOpenedDay(item.day);
-    launchConfetti();
+
+    if (isLastDay) {
+      launchGrandFinale();
+    } else {
+      launchConfetti();
+    }
 
     setTimeout(() => {
       setOpeningDay(null);
@@ -144,6 +111,12 @@ function CalendarioAdviento() {
   const closeModal = () => {
     setSelectedDay(null);
   };
+
+  const lastDayNumber = getLastCalendarDayNumber(calendarDays);
+  const isSelectedGrandPrize =
+    selectedDay &&
+    lastDayNumber !== null &&
+    selectedDay.day === lastDayNumber;
 
   return (
     <main className={styles.page}>
@@ -194,6 +167,9 @@ function CalendarioAdviento() {
                   const isAvailable = item.canReveal && !item.locked;
                   const isOpened = isAvailable && openedDays.includes(item.day);
                   const isOpening = openingDay === item.day;
+                  const isRevealed = isOpened && !isOpening;
+                  const isGrandPrize =
+                    lastDayNumber !== null && item.day === lastDayNumber;
                   const remainingMs = !isAvailable
                     ? getRemainingMs(item.revealFrom, now)
                     : null;
@@ -205,16 +181,33 @@ function CalendarioAdviento() {
                       type="button"
                       className={`${styles.calendarCard} ${
                         isAvailable ? styles.isAvailable : styles.isLocked
-                      } ${isOpened ? styles.isOpened : ""} ${
+                      } ${isRevealed ? styles.isOpened : ""} ${
                         isOpening ? styles.isOpening : ""
-                      }`}
+                      } ${isGrandPrize ? styles.isGrandPrize : ""}`}
                       onClick={() => handleOpenDay(item)}
                       disabled={!isAvailable}
                     >
-                      {!isOpened ? (
+                      {isGrandPrize && (
+                        <div
+                          className={styles.grandPrizeFestive}
+                          aria-hidden="true"
+                        >
+                          <span className={styles.festiveCornerTL}>🎄</span>
+                          <span className={styles.festiveCornerTR}>❄</span>
+                          <span className={styles.festiveCornerBL}>❄</span>
+                          <span className={styles.festiveCornerBR}>⭐</span>
+                          <span className={styles.festiveGarland} />
+                        </div>
+                      )}
+
+                      {!isRevealed ? (
                         <div className={styles.calendarCardClosed}>
                           <span className={styles.calendarCardLabel}>
-                            {!isAvailable ? "Bloqueado" : "Abrir"}
+                            {!isAvailable
+                              ? "Bloqueado"
+                              : isGrandPrize
+                                ? "🎄 Gran Premio"
+                                : "Abrir"}
                           </span>
 
                           <span className={styles.calendarCardNumber}>
@@ -233,7 +226,9 @@ function CalendarioAdviento() {
                               <p>
                                 {!isAvailable
                                   ? "Próximamente"
-                                  : "Tocá para abrir"}
+                                  : isGrandPrize
+                                    ? "¡El regalo de Navidad!"
+                                    : "Tocá para abrir"}
                               </p>
                             )}
                           </div>
@@ -245,7 +240,7 @@ function CalendarioAdviento() {
                           </span>
 
                           <span className={styles.calendarCardRevealed}>
-                            ✨ Revelado
+                            {isGrandPrize ? "🎄 Gran Premio" : "✨ Revelado"}
                           </span>
 
                           <div className={styles.calendarCardImage}>
@@ -275,7 +270,82 @@ function CalendarioAdviento() {
             )}
           </section>
 
-          {selectedDay && (
+          {selectedDay && isSelectedGrandPrize && (
+            <div className={styles.grandModalOverlay} onClick={closeModal}>
+              <div
+                className={styles.grandModal}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className={styles.grandModalGlow} aria-hidden="true" />
+                <div className={styles.grandModalSnow} aria-hidden="true">
+                  <span>❄</span>
+                  <span>❅</span>
+                  <span>❄</span>
+                  <span>❅</span>
+                  <span>❄</span>
+                  <span>❅</span>
+                </div>
+                <div className={styles.grandModalSparkles} aria-hidden="true">
+                  <span>❄</span>
+                  <span>🎄</span>
+                  <span>✨</span>
+                  <span>⭐</span>
+                  <span>🎁</span>
+                  <span>❅</span>
+                </div>
+
+                <button
+                  type="button"
+                  className={styles.grandModalClose}
+                  onClick={closeModal}
+                >
+                  ×
+                </button>
+
+                <div className={styles.grandModalHeader}>
+                  <span className={styles.grandModalGarland} aria-hidden="true" />
+                  <span className={styles.grandModalBadge}>
+                    Gran Premio Navideño
+                  </span>
+                  <h2>¡Feliz Navidad!</h2>
+                  <p>El gran cierre del calendario de adviento Kitos.</p>
+                </div>
+
+                <div className={styles.grandModalImage}>
+                  {selectedDay.image ? (
+                    <img
+                      src={selectedDay.image}
+                      alt={selectedDay.prize || `Premio día ${selectedDay.day}`}
+                    />
+                  ) : (
+                    <span>👑</span>
+                  )}
+                </div>
+
+                <div className={styles.grandModalContent}>
+                  <span className={styles.grandModalDay}>
+                    Día {selectedDay.day} · Cierre navideño 🎅
+                  </span>
+
+                  <h3>{selectedDay.prize || "Premio pendiente"}</h3>
+
+                  <p>
+                    El regalo más importante de toda la Navidad Kitos. ¡Gracias
+                    por acompañarnos día a día en este calendario de adviento!
+                  </p>
+
+                  <div className={styles.grandModalWinner}>
+                    <span>🎄 Ganador del gran premio navideño</span>
+                    <strong>
+                      {selectedDay.winner || "Pendiente de cargar"}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedDay && !isSelectedGrandPrize && (
             <div className={styles.modalOverlay} onClick={closeModal}>
               <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <button
