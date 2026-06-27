@@ -131,3 +131,24 @@ export async function getLegalBases() {
 
   return data.legal?.text || "";
 }
+
+export async function getAdventCalendar() {
+  if (!scriptUrl) {
+    throw new Error("Falta configurar REACT_APP_SCRIPT_URL en el .env");
+  }
+
+  const response = await fetch(scriptUrl, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "getAdventCalendar",
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!data.ok) {
+    throw new Error(data.message || "Error al traer el calendario de adviento");
+  }
+
+  return data.days || [];
+}
