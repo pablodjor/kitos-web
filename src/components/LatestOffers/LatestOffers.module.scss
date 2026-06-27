@@ -8,4 +8,9 @@
 
 .swiper {
   padding: 0 2px 10px;
+
+  :global(.swiper-slide) {
+    height: auto;
+    display: flex;
+  }
 }

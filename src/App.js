@@ -9,6 +9,7 @@ import CodePage from "./pages/CodePage/CodePage";
 import MisParticipacionesPage from "./pages/MisParticipacionesPage/MisParticipacionesPage";
 import OffersPage from "./pages/OffersPage/OffersPage";
 import CategoryOffersPage from "./pages/CategoryOffersPage/CategoryOffersPage";
+import CalendarioAdviento from "./pages/CalendarioAdviento/CalendarioAdviento";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/sorteos" element={<SorteosPage />} />
             <Route path="/registro" element={<RegisterSorteoPage />} />
             <Route path="/codigo" element={<CodePage />} />
+            <Route path="/calendario-adviento" element={<CalendarioAdviento />} />
             <Route
               path="/mis-participaciones"
               element={<MisParticipacionesPage />}

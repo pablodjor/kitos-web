@@ -1,4 +1,4 @@
-import { LuBadgePercent } from "react-icons/lu";
+import { LuBadgePercent, LuTicket } from "react-icons/lu";
 
 import { formatPrice } from "../../utils/formatPrice";
 import styles from "./OfferCard.module.scss";
@@ -22,11 +22,19 @@ export default function OfferCard({ offer, variant = "home" }) {
         </div>
 
         <div className={styles.content}>
-          <h2>{offer.title}</h2>
-
-          {offer.description && (
-            <p className={styles.description}>{offer.description}</p>
-          )}
+          <div className={styles.meta}>
+            <h2>{offer.title}</h2>
+            {offer.description ? (
+              <p className={styles.code}>
+                <LuTicket aria-hidden="true" />
+                <span>{offer.description}</span>
+              </p>
+            ) : (
+              <p className={styles.codePlaceholder} aria-hidden="true">
+                {"\u00A0"}
+              </p>
+            )}
+          </div>
 
           {offer.store && (
             <span className={styles.store}>
@@ -69,11 +77,21 @@ export default function OfferCard({ offer, variant = "home" }) {
         )}
       </div>
 
-      <h3>{offer.title}</h3>
+      <div className={styles.content}>
+        <div className={styles.meta}>
+          <h3>{offer.title}</h3>
+          {offer.description ? (
+            <p className={styles.code}>
+              <LuTicket aria-hidden="true" />
+              <span>{offer.description}</span>
+            </p>
+          ) : (
+            <p className={styles.codePlaceholder} aria-hidden="true">
+              {"\u00A0"}
+            </p>
+          )}
+        </div>
 
-      {offer.description && <p>{offer.description}</p>}
-
-      {(formattedPrice || formattedOldPrice) && (
         <div className={styles.priceRow}>
           {formattedPrice && (
             <strong className={styles.price}>{formattedPrice}</strong>
@@ -82,7 +100,7 @@ export default function OfferCard({ offer, variant = "home" }) {
             <span className={styles.oldPrice}>{formattedOldPrice}</span>
           )}
         </div>
-      )}
+      </div>
 
       <a href={offer.link} target="_blank" rel="noreferrer">
         Ver oferta
