@@ -5,6 +5,7 @@ import { LuTicket } from "react-icons/lu";
 
 import Loader from "../../components/Loader/Loader";
 import { getRaffleConfig } from "../../services/googleSheetService";
+import { launchWinnerCelebration } from "../../utils/raffleWinnerEffects";
 
 import styles from "./SorteosPage.module.scss";
 
@@ -41,6 +42,12 @@ export default function SorteosPage() {
     }, [raffleConfig]);
 
     const hasWinner = winnerName.length > 0;
+
+    useEffect(() => {
+        if (!hasWinner || loading) return undefined;
+
+        launchWinnerCelebration();
+    }, [hasWinner, loading]);
 
     useEffect(() => {
         if (hasWinner) return undefined;
@@ -152,6 +159,9 @@ export default function SorteosPage() {
                     <div className={styles.actions}>
                         {hasWinner ? (
                             <div className={styles.winnerMessage}>
+                                <span className={styles.winnerEmoji} aria-hidden="true">
+                                    🎉
+                                </span>
                                 <p className={styles.winnerTitle}>
                                     ¡Felicidades{" "}
                                     <strong>{winnerName}</strong>!

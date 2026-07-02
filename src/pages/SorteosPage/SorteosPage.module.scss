@@ -93,14 +93,42 @@
 }
 
 .winnerMessage {
-  padding: 20px 18px;
-  border: 1px solid var(--raffle-border);
+  position: relative;
+  overflow: hidden;
+  padding: 28px 20px 22px;
+  border: 2px solid transparent;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at top right, var(--raffle-glow), transparent 55%),
+    radial-gradient(circle at top right, rgba(255, 157, 77, 0.22), transparent 55%),
+    radial-gradient(circle at bottom left, rgba(250, 110, 89, 0.18), transparent 50%),
     var(--color-white);
   text-align: center;
-  box-shadow: var(--raffle-shadow-card);
+  box-shadow:
+    var(--raffle-shadow-card),
+    0 0 0 1px var(--raffle-border);
+  animation: winnerPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: var(--raffle-gradient);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.winnerEmoji {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 42px;
+  line-height: 1;
+  animation: winnerBounce 1.2s ease-in-out infinite;
 }
 
 .winnerTitle {
@@ -112,16 +140,63 @@
 
   strong {
     color: var(--color-secondary);
+    animation: winnerGlow 2s ease-in-out infinite;
   }
 }
 
 .winnerSubtitle {
   margin: 10px 0 0;
-  color: var(--color-text-muted);
+  color: var(--color-secondary-dark);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
+}
+
+@keyframes winnerPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes winnerBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-6px) rotate(-8deg);
+  }
+
+  75% {
+    transform: translateY(-4px) rotate(8deg);
+  }
+}
+
+@keyframes winnerGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 0 transparent;
+  }
+
+  50% {
+    text-shadow: 0 0 18px rgba(250, 110, 89, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winnerMessage,
+  .winnerEmoji,
+  .winnerTitle strong {
+    animation: none;
+  }
 }
 
 .timer {
